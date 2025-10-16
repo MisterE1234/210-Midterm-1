@@ -81,94 +81,135 @@ if (temp->next)
 temp->next->prev = temp->prev;
 else
 tail = temp->prev;
+// Delete the node to free memory
 delete temp;
 }
+
+// delete_pos(): Deletes the node at a specified position in the list.
+// requires: an int for the position to be deleted
 void delete_pos(int pos) {
+// Making sure the position is valid and the list is not empty
 if (!head) {
 cout << "List is empty." << endl;
 return;
 }
+// Position must be 1 or greater
 if (pos == 1) {
 pop_front();
 return;
 }
+// Traverse to the specified position using a for loop and a temporary pointer
 Node* temp = head;
 for (int i = 1; i < pos; i++){
+// Checking if the position exists in the list
 if (!temp) {
 cout << "Position doesn't exist." << endl;
 return;
 }
+// Move to the next node
 else
 temp = temp->next;
 }
+// If the new temp is null, it means we are at the end of the list
 if (!temp) {
 cout << "Position doesn't exist." << endl;
 return;
 }
+// If the node to be deleted is the last node, call pop_back()
 if (!temp->next) {
 pop_back();
 return;
 }
+// Adjust the pointers to remove the node from the list
 Node* tempPrev = temp->prev;
 tempPrev->next = temp->next;
 temp->next->prev = tempPrev;
+// Delete the node to free memory
 delete temp;
 }
+//push_back(): Adds a new value to the end of the list.
+//requires: an int for the value to be added
 void push_back(int v) {
+// Create the new node and making sure the list is not empty
 Node* newNode = new Node(v);
 if (!tail)
 head = tail = newNode;
+// If the list is not empty, adjust the pointers to add the new node at the end
 else {
 tail->next = newNode;
 newNode->prev = tail;
 tail = newNode;
 }
 }
+
+//push_front(): Adds a new value to the front of the list.
+//requires: an int for the value to be added
 void push_front(int v) {
+// Create the new node and making sure the list is not empty
 Node* newNode = new Node(v);
 if (!head)
 head = tail = newNode;
+// If the list is not empty, adjust the pointers to add the new node at the front
 else {
 newNode->next = head;
 head->prev = newNode;
 head = newNode;
 }
 }
+//pop_front(): Removes the first node from the list.
+//requires: nothing
 void pop_front() {
+// Making sure the list is not empty
 if (!head) {
 cout << "List is empty." << endl;
 return;
 }
+// Store the old head in a temporary pointer
 Node * temp = head;
 if (head->next) {
 head = head->next;
 head->prev = nullptr;
 }
+// If there was only one node, set head and tail to nullptr
 else
 head = tail = nullptr;
+// Delete the old head to free memory
 delete temp;
 }
+//pop_back(): Removes the last node from the list.
+//requires: nothing
 void pop_back() {
+// Making sure the list is not empty
 if (!tail) {
 cout << "List is empty." << endl;
 return;
 }
+// Store the old tail in a temporary pointer
 Node * temp = tail;
 if (tail->prev) {
 tail = tail->prev;
 tail->next = nullptr;
 }
+// If there was only one node, set head and tail to nullptr
 else
 head = tail = nullptr;
+// Delete the old tail to free memory
 delete temp;
 }
+
+// Destructor to free memory when the list is no longer needed
+//requires: nothing
 ~DoublyLinkedList() {
+// Traverse the list and delete each node
 while (head) {
 Node* temp = head;
 head = head->next;
+//delete the node to free memory
 delete temp;
 }
 }
+
+
 void print() {
 Node* current = head;
 if (!current) {

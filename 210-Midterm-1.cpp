@@ -106,28 +106,28 @@ return; // Exit the function early
 Node* temp = head; // Temporary pointer to traverse the list
 for (int i = 1; i < pos; i++){
 // Checking if the position exists in the list
-if (!temp) {
-cout << "Position doesn't exist." << endl;
-return;
+if (!temp) { // If temp is null, the position is out of bounds
+cout << "Position doesn't exist." << endl; // Output an error message
+return; // Exit the function early
 }
-// Move to the next node
-else
-temp = temp->next;
+
+else // If temp is not null, continue traversing the list
+temp = temp->next; // Move to the next node
 }
 // If the new temp is null, it means we are at the end of the list
-if (!temp) {
-cout << "Position doesn't exist." << endl;
-return;
+if (!temp) { // If temp is null, the position is out of bounds and doesn't exist
+cout << "Position doesn't exist." << endl; // Output an error message
+return; // Exit the function early
 }
 // If the node to be deleted is the last node, call pop_back()
-if (!temp->next) {
-pop_back();
-return;
+if (!temp->next) { // If temp is the last node
+pop_back(); // Call pop_back() to remove the last node
+return; // Exit the function early
 }
 // Adjust the pointers to remove the node from the list
-Node* tempPrev = temp->prev;
-tempPrev->next = temp->next;
-temp->next->prev = tempPrev;
+Node* tempPrev = temp->prev; // Temporary pointer to the previous node
+tempPrev->next = temp->next; // Adjust the previous node's next pointer to skip the deleted node
+temp->next->prev = tempPrev; // Adjust the next node's prev pointer to skip the deleted node
 // Delete the node to free memory
 delete temp;
 }
@@ -135,14 +135,14 @@ delete temp;
 //requires: an int for the value to be added
 void push_back(int v) {
 // Create the new node and making sure the list is not empty
-Node* newNode = new Node(v);
-if (!tail)
-head = tail = newNode;
+Node* newNode = new Node(v); // Create the new node by using the Node constructor
+if (!tail) //If the tail is empty:
+head = tail = newNode; // Set both head and tail to the new node
 // If the list is not empty, adjust the pointers to add the new node at the end
-else {
-tail->next = newNode;
-newNode->prev = tail;
-tail = newNode;
+else { //If the tail is not empty:
+tail->next = newNode; // Set the current tail's next to the new node
+newNode->prev = tail; // Set the new node's prev to the current tail
+tail = newNode; // Update the tail to the new node
 }
 }
 
@@ -150,33 +150,33 @@ tail = newNode;
 //requires: an int for the value to be added
 void push_front(int v) {
 // Create the new node and making sure the list is not empty
-Node* newNode = new Node(v);
-if (!head)
-head = tail = newNode;
+Node* newNode = new Node(v); // Create the new node by using the Node constructor
+if (!head) //If the head is empty:
+head = tail = newNode; // Set both head and tail to the new node
 // If the list is not empty, adjust the pointers to add the new node at the front
-else {
-newNode->next = head;
-head->prev = newNode;
-head = newNode;
+else { //If the head is not empty:
+newNode->next = head; // Set the new node's next to the current head
+head->prev = newNode; // Set the current head's prev to the new node
+head = newNode; // Update the head to the new node
 }
 }
 //pop_front(): Removes the first node from the list.
 //requires: nothing
 void pop_front() {
 // Making sure the list is not empty
-if (!head) {
-cout << "List is empty." << endl;
-return;
+if (!head) { // If the list is empty, there is nothing to pop so return early
+cout << "List is empty." << endl; //Display an error message to the console
+return; //Return early
 }
 // Store the old head in a temporary pointer
-Node * temp = head;
-if (head->next) {
-head = head->next;
-head->prev = nullptr;
+Node * temp = head; //Create a temporary node to hold the head pointer
+if (head->next) { // if there is more than one node
+head = head->next; // set head to the next node
+head->prev = nullptr; // remove the previous head
 }
 // If there was only one node, set head and tail to nullptr
-else
-head = tail = nullptr;
+else //if there was only one node
+head = tail = nullptr; // set head and tail to null
 // Delete the old head to free memory
 delete temp;
 }
@@ -184,8 +184,8 @@ delete temp;
 //requires: nothing
 void pop_back() {
 // Making sure the list is not empty
-if (!tail) {
-cout << "List is empty." << endl;
+if (!tail) { // if there is no tail node
+cout << "List is empty." << endl; //Display to error to Console
 return;
 }
 // Store the old tail in a temporary pointer
@@ -245,10 +245,29 @@ cout << current->data << " ";
 current = current->prev;
 }
 cout << endl;
+
+
+}
+
+void every_other_element(){
+//Making sure the list is not empty
+Node* current = head;
+if (!current) {
+cout << "List is empty." << endl;
+return;
 }
 
 
+// Traverse the list and print every other node's data
+while (current) {
+cout << current->data << " ";
+current = current->next;
+}
+cout << endl;
+
+}
 };
+
 int main() {
 cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS; // dummy statement to avoid compiler warning
 return 0;

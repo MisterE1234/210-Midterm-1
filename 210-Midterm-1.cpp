@@ -15,7 +15,7 @@ int data; //declaring an integer variable to hold the data of the node
 Node* prev; //Pointer to the previous node in the list
 Node* next; //Pointer to the next node in the list
 
-Node(int val, Node* p = nullptr, Node* n = nullptr) { //Constructor to initialize a node with an integer value, previous pointer, and next pointer.
+Node(int val, Node* p = nullptr, Node* n = nullptr) { //Constructor to initialize a node with an integer value and optional previous and next pointers.
 data = val; // Set the data field to the provided value
 prev = p; // Set the previous pointer to the provided previous node
 next = n; // Set the next pointer to the provided next node
@@ -35,54 +35,56 @@ void insert_after(int value, int position) {
 // Making sure the position is not negative
 if (position < 0) { // Position must be 0 or greater
 cout << "Position must be >= 0." << endl; //Output an error message if the position is negative
-return;
+return; // Exit the function early
 }
 // Create the new node and making sure the list is not empty
-Node* newNode = new Node(value);
-if (!head) {
-head = tail = newNode;
-return;
+Node* newNode = new Node(value); // Create the new node by using the Node constructor
+if (!head) { //If the head is empty:
+head = tail = newNode; // Set both head and tail to the new node
+return; // Exit the function early
 }
 // Traverse to the specified position using a for loop and a temporary pointer
-Node* temp = head;
-for (int i = 0; i < position && temp; ++i)
-temp = temp->next;
+Node* temp = head; // Temporary pointer to traverse the list
+for (int i = 0; i < position && temp; ++i) //For loop to move to the specified position while checking to see if the end of the list is reached
+temp = temp->next; // Move to the next node
 // If the position exceeds the list size, notify the user and delete the new node
-if (!temp) {
-cout << "Position exceeds list size. Node not inserted.\n";
-delete newNode;
-return;
+if (!temp) { // If temp is null, the position is out of bounds
+cout << "Position exceeds list size. Node not inserted.\n"; // Output an error message
+delete newNode; // Delete the newly created node to free memory
+return; // Exit the function early
 }
 // Insert the new node after the specified position by adjusting the pointers
-newNode->next = temp->next;
-newNode->prev = temp;
-if (temp->next)
-temp->next->prev = newNode;
-else
-tail = newNode;
-temp->next = newNode;
+newNode->next = temp->next; // Set the new node's next to temp's next
+newNode->prev = temp; // Set the new node's prev to temp
+if (temp->next) // If temp is not the last node
+temp->next->prev = newNode; // Adjust the next node's prev to point to the new node
+else // If temp is the last node
+tail = newNode; // Update the tail to the new node
+temp->next = newNode; // Set temp's next to the new node
 }
 
 // delete_val(): Deletes the first occurrence of a specified value from the list.
 // requires: an int for the value to be deleted
 void delete_val(int value) {
-if (!head) return;
-Node* temp = head;
+// Making sure the list is not empty
+if (!head) return; // If the list is empty, there is nothing to delete so return early
+
+Node* temp = head; // Temporary pointer to traverse the list
 // Traverse the list to find the node with the specified value using a while loop
-while (temp && temp->data != value)
+while (temp && temp->data != value) //A while loop to find the node with the specified value while checking to see if the end of the list is reached
 // Move to the next node and check if the end of the list is reached
-temp = temp->next;
-if (!temp) return;
+temp = temp->next; // Move to the next node
+if (!temp) return; // If the value was not found, exit the function early
 // Adjust the pointers to remove the node from the list
-if (temp->prev)
-temp->prev->next = temp->next;
-else
-head = temp->next;
+if (temp->prev) // If the node to be deleted is not the head
+temp->prev->next = temp->next; // Adjust the previous node's next pointer to skip the deleted node
+else // If the node to be deleted is the head
+head = temp->next; // Update the head to the next node
 // Adjust the tail if the deleted node was the last node
-if (temp->next)
-temp->next->prev = temp->prev;
-else
-tail = temp->prev;
+if (temp->next) // If the node to be deleted is not the tail
+temp->next->prev = temp->prev; // Adjust the next node's prev pointer to skip the deleted node
+else // If the node to be deleted is the tail
+tail = temp->prev; // Update the tail to the previous node
 // Delete the node to free memory
 delete temp;
 }
@@ -91,17 +93,17 @@ delete temp;
 // requires: an int for the position to be deleted
 void delete_pos(int pos) {
 // Making sure the position is valid and the list is not empty
-if (!head) {
-cout << "List is empty." << endl;
-return;
+if (!head) { // If the list is empty, there is nothing to delete so return early
+cout << "List is empty." << endl; // Output an error message
+return; // Exit the function early
 }
 // Position must be 1 or greater
-if (pos == 1) {
-pop_front();
-return;
+if (pos == 1) { // If the position is 1
+pop_front(); // Call pop_front() to remove the first node
+return; // Exit the function early
 }
 // Traverse to the specified position using a for loop and a temporary pointer
-Node* temp = head;
+Node* temp = head; // Temporary pointer to traverse the list
 for (int i = 1; i < pos; i++){
 // Checking if the position exists in the list
 if (!temp) {

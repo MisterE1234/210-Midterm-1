@@ -259,6 +259,8 @@ return;
 
 
 // Traverse the list and print every other node's data
+cout << "\nPrinting every other entry: \n";
+
 while (current) {
 cout << current->data << " ";
 current = current->next->next;
@@ -272,13 +274,18 @@ int main() {
 cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS; // dummy statement to avoid compiler warning
 DoublyLinkedList list; //Declaring a DoublyLinkedList named list
 
+//adding values into the list
 list.push_back(1);
 list.push_back(2);
 list.push_back(3);
 list.push_back(4);
 list.push_back(5);
 
+//printing every other value
+list.every_other_element();
 
+//deleting the list
+list.~DoublyLinkedList();
 
 return 0;
 
